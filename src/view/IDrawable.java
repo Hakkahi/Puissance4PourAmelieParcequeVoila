@@ -3,19 +3,23 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package puissance4;
+
+
+package view;
+
 
 /**
  *
  * @author hakkahi
  */
-public class Puissance4 {
 
-    /**
-     * @param args the command line arguments
-     */
-    public static void main(String[] args) {
-        // TODO code application logic here
-    }
-    
+
+import java.awt.Graphics;
+import java.awt.Rectangle;
+
+public interface IDrawable {
+	
+	public  void draw(Graphics g);
+
+	public Rectangle getRectangle();
 }
