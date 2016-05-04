@@ -6,6 +6,7 @@
 package puissance4;
 
 import controller.Controller;
+import model.Game;
 import view.*;
 
 /**
@@ -25,6 +26,8 @@ public class Main {
         GUIHelper.showOnFrame(jc, "test JCanvas");*/
         
         View board = new View();
-        Controller controller = new Controller(board);
+        Game game = new Game();
+        Controller controller = new Controller(board, game);
+        game.addObserver(board);
     }
 }

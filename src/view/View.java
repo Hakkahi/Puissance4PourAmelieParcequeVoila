@@ -10,13 +10,11 @@ import java.awt.GridBagConstraints;
 import java.awt.GridBagLayout;
 import java.awt.GridLayout;
 import java.awt.Rectangle;
-import java.awt.event.WindowAdapter;
-import java.awt.event.WindowEvent;
-import java.awt.event.WindowListener;
 import java.util.Observable;
 import java.util.Observer;
 import javax.swing.*;
 import javax.swing.border.Border;
+import model.Game;
 
 /**
  *
@@ -31,11 +29,12 @@ public class View extends JFrame implements Observer {
     private int _windowHeight = 800;
     private int _windowWidth = 600;
     private int _borderSize = (_windowWidth * 1) / 100;
+    private Border _blueLine;
 
     public View() {
 
         super("Puissance4");
-        
+
         init();
 
         setSize(_windowHeight, _windowWidth);
@@ -44,19 +43,13 @@ public class View extends JFrame implements Observer {
 
     }
 
-    @Override
-    public void update(Observable o, Object arg) {
-        throw new UnsupportedOperationException("Not supported yet.");
-    }
-
     private void init() {
 
         this._window = new JPanel(new GridBagLayout());
         this._grid = new JPanel(new GridLayout(6, 7));
         this._preview = new JPanel(new GridLayout(1, 6));
 
-        Border blueLine = BorderFactory.createLineBorder(Color.BLUE, _borderSize);
-        Border blackLine = BorderFactory.createLineBorder(Color.BLACK, 2);
+        _blueLine = BorderFactory.createLineBorder(Color.BLUE, _borderSize);
 
         GridBagConstraints cWindow = new GridBagConstraints();
 
@@ -64,8 +57,9 @@ public class View extends JFrame implements Observer {
 
         for (int i = 0; i < 42; i++) {
             JLabel labelGrid = new JLabel();
-            labelGrid.setBorder(blueLine);
+            labelGrid.setBorder(_blueLine);
             labelGrid.setOpaque(true);
+            labelGrid.setBackground(Color.WHITE);
             labelGrid.setVerticalAlignment(SwingConstants.CENTER);
             labelGrid.setHorizontalAlignment(SwingConstants.CENTER);
             this.getGrid().add(labelGrid);
@@ -74,8 +68,8 @@ public class View extends JFrame implements Observer {
         for (int i = 0; i < 7; i++) {
 
             JLabel labelPreview = new JLabel();
-            labelPreview.setBorder(blackLine);
             labelPreview.setOpaque(true);
+            labelPreview.setBackground(Color.WHITE);
             labelPreview.setVerticalAlignment(SwingConstants.CENTER);
             labelPreview.setHorizontalAlignment(SwingConstants.CENTER);
             this.getPreview().add(labelPreview);
@@ -100,6 +94,34 @@ public class View extends JFrame implements Observer {
 
     }
 
+    @Override
+    public void update(Observable o, Object arg) {
+
+        if (o instanceof Game) {
+
+            Game game = (Game) o;
+            
+            resetPreview();
+
+            int i = game.getPosPreview();
+            if (i != -1) {
+
+                this.getPreview().getComponent(i).setBackground(Color.RED);
+
+            }
+        }
+    }
+
+    public void resetPreview() {
+
+        for (int i = 0; i < 7; ++i) {
+
+            this.getPreview().getComponent(i).setBackground(Color.WHITE);
+
+        }
+
+    }
+
     public JPanel getWindow() {
         return _window;
     }
@@ -115,4 +137,39 @@ public class View extends JFrame implements Observer {
     public JFrame getMainFrame() {
         return this;
     }
+
+    public void setBorderSize() {
+
+        Rectangle rectangle = this.getBounds();
+
+        this.setWindowHeight(rectangle.height);
+        this.setWindowWidth(rectangle.width);
+
+        _borderSize = (_windowWidth * 1) / 100;
+
+        _blueLine = BorderFactory.createLineBorder(Color.BLUE, _borderSize);
+        
+        this.setLabelBorder();
+
+    }
+
+    public void setWindowHeight(int height) {
+        this._windowHeight = height;
+    }
+
+    public void setWindowWidth(int width) {
+        this._windowWidth = width;
+    }
+
+    public void setLabelBorder() {
+        
+        JLabel tmp;
+        for (int i = 0; i < 42; ++i) {
+            
+            tmp = (JLabel) this.getGrid().getComponent(i);
+            tmp.setBorder(_blueLine);
+        }
+
+    }
+
 }

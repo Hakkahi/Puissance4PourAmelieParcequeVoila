@@ -5,10 +5,38 @@
  */
 package model;
 
+import java.util.Observable;
+
 /**
  *
  * @author hakkahi
  */
-public class Game {
+public class Game extends Observable {
+
+    private int _posPreview;
+
+    public Game() {
+        init();
+    }
+
+    public void init() {
+        resetPosPreview();
+    }
+
+    public int getPosPreview() {
+        return _posPreview;
+    }
+
+    public void setPosPreview(int i) {
+
+        this._posPreview = i;
+        setChanged();
+        notifyObservers();
+
+    }
+
+    public void resetPosPreview() {
+        setPosPreview(-1);
+    }
 
 }
