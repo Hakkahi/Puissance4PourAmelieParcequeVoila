@@ -24,7 +24,7 @@ public class Main {
         jc.addDrawable(circle);
         SimpleMouseListener simpleMouseListener = new SimpleMouseListener(jc);
         GUIHelper.showOnFrame(jc, "test JCanvas");*/
-        
+
         View board = new View();
         Game game = new Game();
         Controller controller = new Controller(board, game);

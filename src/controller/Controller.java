@@ -12,6 +12,7 @@ import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
 import model.Game;
+import model.HumanPlayer;
 import view.View;
 
 /**
@@ -48,7 +49,7 @@ public class Controller {
 
         //Création de l'évènement qui quitte le jeu lors d'un clique de la croix
         this._closingWindow = new WindowAdapter() {
-            
+
             @Override
             public void windowClosing(WindowEvent e) {
 
@@ -57,9 +58,9 @@ public class Controller {
             }
 
         };
-        
+
         this._resizingWindow = new ComponentAdapter() {
-            
+
             @Override
             public void componentResized(ComponentEvent e) {
 
@@ -68,13 +69,14 @@ public class Controller {
             }
 
         };
-        
+
         //Création des évènements de souris dans la partie Grid
         for (int i = 0; i < 6; ++i) {
 
             for (int j = 0; j < 7; ++j) {
 
                 final int column = j;
+                final int line = i;
 
                 this._selectColumnGrid[i][j] = new MouseAdapter() {
 
@@ -85,14 +87,20 @@ public class Controller {
                         _game.setPosPreview(column);
 
                     }
-                };             
+                };
 
                 this._clickColumnGrid[i][j] = new MouseAdapter() {
 
                     @Override
                     public void mouseClicked(MouseEvent e) {
 
-                        //System.out.println("BluhG");
+                        if (_game.getCurrentPlayer() instanceof HumanPlayer) {
+
+                            if (_game.strokeIsValid(column)) {
+                                _game.playMove(column);
+                            }
+                        }
+
                     }
                 };
 
@@ -111,8 +119,8 @@ public class Controller {
                 public void mouseEntered(MouseEvent e) {
 
                     _game.resetPosPreview();
-                    _game.setPosPreview(column); 
-                    
+                    _game.setPosPreview(column);
+
                 }
             };
 
@@ -121,7 +129,9 @@ public class Controller {
                 @Override
                 public void mouseClicked(MouseEvent e) {
 
-                    //System.out.println("BluhP");
+                    if (_game.getCurrentPlayer() instanceof HumanPlayer) {
+                        _game.playMove(column);
+                    }
                 }
             };
 
@@ -129,7 +139,7 @@ public class Controller {
 
         //Ajout des évènements crées à leurs éléments dans la vue
         this._view.getMainFrame().addWindowListener(_closingWindow);
-        
+
         this._view.getMainFrame().addComponentListener(_resizingWindow);
 
         int count = 0;

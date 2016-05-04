@@ -15,6 +15,7 @@ import java.util.Observer;
 import javax.swing.*;
 import javax.swing.border.Border;
 import model.Game;
+import model.Player;
 
 /**
  *
@@ -100,13 +101,26 @@ public class View extends JFrame implements Observer {
         if (o instanceof Game) {
 
             Game game = (Game) o;
-            
+
             resetPreview();
 
-            int i = game.getPosPreview();
-            if (i != -1) {
+            if (game.getPosPreview() != -1) {
 
-                this.getPreview().getComponent(i).setBackground(Color.RED);
+                this.getPreview().getComponent(game.getPosPreview()).setBackground(game.getCurrentPlayer().getColor());
+
+            }
+
+            for (int i = 0; i < 6; ++i) {
+
+                for (int j = 0; j < 7; ++j) {
+
+                    Player tmp = game.getPlayerById(game.getTileIJ(i, j).getIdPlayer());
+
+                    if (tmp != null) {
+                        this.getGrid().getComponent((7 * i) + j).setBackground(tmp.getColor());
+                    }
+
+                }
 
             }
         }
@@ -148,7 +162,7 @@ public class View extends JFrame implements Observer {
         _borderSize = (_windowWidth * 1) / 100;
 
         _blueLine = BorderFactory.createLineBorder(Color.BLUE, _borderSize);
-        
+
         this.setLabelBorder();
 
     }
@@ -162,10 +176,10 @@ public class View extends JFrame implements Observer {
     }
 
     public void setLabelBorder() {
-        
+
         JLabel tmp;
         for (int i = 0; i < 42; ++i) {
-            
+
             tmp = (JLabel) this.getGrid().getComponent(i);
             tmp.setBorder(_blueLine);
         }

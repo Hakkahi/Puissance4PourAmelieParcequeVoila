@@ -5,10 +5,29 @@
  */
 package model;
 
+import java.awt.Color;
+
 /**
  *
  * @author hakkahi
  */
-public class Player {
+public abstract class Player {
 
+    private final Color _color;
+    private final int _id;
+
+    public Player(int id, Color color) {
+
+        this._color = color;
+        this._id = id;
+
+    }
+
+    public Color getColor() {
+        return this._color;
+    }
+
+    public int getId() {
+        return this._id;
+    }
 }

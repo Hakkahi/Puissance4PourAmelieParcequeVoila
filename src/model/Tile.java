@@ -9,6 +9,16 @@ package model;
  *
  * @author hakkahi
  */
-public class Board {
+public class Tile {
+
+    int _idPlayer;
+
+    public Tile(int _idPlayer) {
+        this._idPlayer = _idPlayer;
+    }
+
+    public int getIdPlayer() {
+        return this._idPlayer;
+    }
 
 }
