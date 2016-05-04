@@ -59,9 +59,8 @@ public final class Game extends Observable {
 
         }
 
-        Player tmp = Win();
-        if (tmp != null) {
-            System.out.println(tmp.getId());
+        if (Win()) {
+            System.out.println(this._currentPlayer.getId());
         }
 
         if (this._currentPlayer.getId() == this._player1.getId()) {
@@ -81,7 +80,7 @@ public final class Game extends Observable {
 
     }
 
-    public Player Win() {
+    public boolean Win() {
 
         //Vérification des lignes
         for (int i = 0; i < 6; ++i) {
@@ -89,7 +88,7 @@ public final class Game extends Observable {
             for (int j = 0; j < 4; ++j) {
 
                 if (this._currentPlayer.getId() == this._board[i][j].getIdPlayer() && this._currentPlayer.getId() == this._board[i][j + 1]._idPlayer && this._currentPlayer.getId() == this._board[i][j + 2]._idPlayer && this._currentPlayer.getId() == this._board[i][j + 3]._idPlayer) {
-                    return this._currentPlayer;
+                    return true;
                 }
 
             }
@@ -102,7 +101,7 @@ public final class Game extends Observable {
             for (int j = 0; j < 3; ++j) {
 
                 if (this._currentPlayer.getId() == this._board[j][i].getIdPlayer() && this._currentPlayer.getId() == this._board[j + 1][i]._idPlayer && this._currentPlayer.getId() == this._board[j + 2][i]._idPlayer && this._currentPlayer.getId() == this._board[j + 3][i]._idPlayer) {
-                    return this._currentPlayer;
+                    return true;
                 }
 
             }
@@ -115,7 +114,7 @@ public final class Game extends Observable {
             for (int j = 0; j < 3; ++j) {
 
                 if (this._currentPlayer.getId() == this._board[j][i].getIdPlayer() && this._currentPlayer.getId() == this._board[j + 1][i + 1]._idPlayer && this._currentPlayer.getId() == this._board[j + 2][i + 2]._idPlayer && this._currentPlayer.getId() == this._board[j + 3][i + 3]._idPlayer) {
-                    return this._currentPlayer;
+                    return true;
                 }
 
             }
@@ -128,14 +127,14 @@ public final class Game extends Observable {
             for (int j = 0; j < 3; ++j) {
 
                 if (this._currentPlayer.getId() == this._board[j][i].getIdPlayer() && this._currentPlayer.getId() == this._board[j + 1][i - 1]._idPlayer && this._currentPlayer.getId() == this._board[j + 2][i - 2]._idPlayer && this._currentPlayer.getId() == this._board[j + 3][i - 3]._idPlayer) {
-                    return this._currentPlayer;
+                    return true;
                 }
 
             }
 
         }
 
-        return null;
+        return false;
 
     }
 
