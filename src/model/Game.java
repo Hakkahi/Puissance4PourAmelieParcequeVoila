@@ -7,6 +7,8 @@ package model;
 
 import java.awt.Color;
 import java.util.Observable;
+import java.util.Random;
+import static model.EffectFactory.createEffect;
 
 /**
  *
@@ -15,17 +17,20 @@ import java.util.Observable;
 public final class Game extends Observable {
 
     private int _posPreview;
-    private final Tile[][] _board;
+    private final Board _board;
     private final Player _player1;
     private final Player _player2;
     private Player _currentPlayer;
+    private int _winner;
 
     public Game() {
 
-        this._board = new Tile[6][7];
+        this._winner = -1;
+
         this._player1 = new HumanPlayer(1, Color.RED);
         this._player2 = new HumanPlayer(2, Color.YELLOW);
         this._currentPlayer = this._player1;
+        this._board = new Board();
 
         init();
 
@@ -35,32 +40,30 @@ public final class Game extends Observable {
 
         resetPosPreview();
 
-        for (int i = 0; i < 6; ++i) {
-
-            for (int j = 0; j < 7; ++j) {
-                this._board[i][j] = new Tile(-1);
-            }
-
-        }
-
     }
 
     public void playMove(int column) {
 
-        for (int i = 5; i >= 0; --i) {
+        int i;
 
-            if (this._board[i][column].getIdPlayer() == -1) {
+        for (i = 5; i >= 0; --i) {
 
-                this._board[i][column]._idPlayer = this._currentPlayer.getId();
+            if (this._board.getTileIJ(i, column).getIdPlayer() == -1) {
+
+                this._board.getTileIJ(i, column).setIdPlayer(this._currentPlayer.getId());
 
                 break;
 
             }
 
         }
+        if (this._board.getTileIJ(i, column).getEffect() != null) {
+            this._board.getTileIJ(i, column).getEffect().playEffect(i, column, this);
+        }
 
-        if (Win()) {
-            System.out.println(this._currentPlayer.getId());
+        Player tmp = Win();
+        if (tmp != null) {
+            this._winner = tmp.getId();
         }
 
         if (this._currentPlayer.getId() == this._player1.getId()) {
@@ -76,19 +79,23 @@ public final class Game extends Observable {
 
     public boolean strokeIsValid(int column) {
 
-        return this._board[0][column].getIdPlayer() == -1;
+        return this._board.getTileIJ(0, column).getIdPlayer() == -1;
 
     }
 
-    public boolean Win() {
+    public Player Win() {
 
         //Vérification des lignes
         for (int i = 0; i < 6; ++i) {
 
             for (int j = 0; j < 4; ++j) {
 
-                if (this._currentPlayer.getId() == this._board[i][j].getIdPlayer() && this._currentPlayer.getId() == this._board[i][j + 1]._idPlayer && this._currentPlayer.getId() == this._board[i][j + 2]._idPlayer && this._currentPlayer.getId() == this._board[i][j + 3]._idPlayer) {
-                    return true;
+                if (this._player1.getId() == this._board.getTileIJ(i, j).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(i, j + 1).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(i, j + 2).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(i, j + 3).getIdPlayer()) {
+                    return _player1;
+                }
+
+                if (this._player2.getId() == this._board.getTileIJ(i, j).getIdPlayer() && this._player2.getId() == this._board.getTileIJ(i, j + 1).getIdPlayer() && this._player2.getId() == this._board.getTileIJ(i, j + 2).getIdPlayer() && this._player2.getId() == this._board.getTileIJ(i, j + 3).getIdPlayer()) {
+                    return _player2;
                 }
 
             }
@@ -100,8 +107,12 @@ public final class Game extends Observable {
 
             for (int j = 0; j < 3; ++j) {
 
-                if (this._currentPlayer.getId() == this._board[j][i].getIdPlayer() && this._currentPlayer.getId() == this._board[j + 1][i]._idPlayer && this._currentPlayer.getId() == this._board[j + 2][i]._idPlayer && this._currentPlayer.getId() == this._board[j + 3][i]._idPlayer) {
-                    return true;
+                if (this._player1.getId() == this._board.getTileIJ(j, i).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 1, i).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 2, i).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 3, i).getIdPlayer()) {
+                    return _player1;
+                }
+
+                if (this._player2.getId() == this._board.getTileIJ(j, i).getIdPlayer() && this._player2.getId() == this._board.getTileIJ(j + 1, i).getIdPlayer() && this._player2.getId() == this._board.getTileIJ(j + 2, i).getIdPlayer() && this._player2.getId() == this._board.getTileIJ(j + 3, i).getIdPlayer()) {
+                    return _player2;
                 }
 
             }
@@ -113,8 +124,12 @@ public final class Game extends Observable {
 
             for (int j = 0; j < 3; ++j) {
 
-                if (this._currentPlayer.getId() == this._board[j][i].getIdPlayer() && this._currentPlayer.getId() == this._board[j + 1][i + 1]._idPlayer && this._currentPlayer.getId() == this._board[j + 2][i + 2]._idPlayer && this._currentPlayer.getId() == this._board[j + 3][i + 3]._idPlayer) {
-                    return true;
+                if (this._player1.getId() == this._board.getTileIJ(j, i).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 1, i + 1).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 2, i + 2).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 3, i + 3).getIdPlayer()) {
+                    return _player1;
+                }
+
+                if (this._player2.getId() == this._board.getTileIJ(j, i).getIdPlayer() && this._player2.getId() == this._board.getTileIJ(j + 1, i + 1).getIdPlayer() && this._player2.getId() == this._board.getTileIJ(j + 2, i + 2).getIdPlayer() && this._player2.getId() == this._board.getTileIJ(j + 3, i + 3).getIdPlayer()) {
+                    return _player2;
                 }
 
             }
@@ -126,15 +141,39 @@ public final class Game extends Observable {
 
             for (int j = 0; j < 3; ++j) {
 
-                if (this._currentPlayer.getId() == this._board[j][i].getIdPlayer() && this._currentPlayer.getId() == this._board[j + 1][i - 1]._idPlayer && this._currentPlayer.getId() == this._board[j + 2][i - 2]._idPlayer && this._currentPlayer.getId() == this._board[j + 3][i - 3]._idPlayer) {
-                    return true;
+                if (this._player1.getId() == this._board.getTileIJ(j, i).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 1, i - 1).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 2, i - 2).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 3, i - 3).getIdPlayer()) {
+                    return _player1;
+                }
+
+                if (this._player2.getId() == this._board.getTileIJ(j, i).getIdPlayer() && this._player2.getId() == this._board.getTileIJ(j + 1, i - 1).getIdPlayer() && this._player2.getId() == this._board.getTileIJ(j + 2, i - 2).getIdPlayer() && this._player2.getId() == this._board.getTileIJ(j + 3, i - 3).getIdPlayer()) {
+                    return _player2;
                 }
 
             }
 
         }
 
-        return false;
+        return null;
+
+    }
+
+    public void setTilesEffect() {
+
+        for (int i = 0; i < 6; ++i) {
+
+            for (int j = 0; j < 7; ++j) {
+
+                Random rand = new Random();
+                //Tire un nombre aléatoire entre min et max compris
+                int random = rand.nextInt(100 - 1 + 1) + 1;
+
+                if (random <= this._board.getTileEffectChance()) {
+                    this._board.getTileIJ(i, j).setEffect(createEffect());
+                }
+
+            }
+
+        }
 
     }
 
@@ -142,12 +181,8 @@ public final class Game extends Observable {
         return _posPreview;
     }
 
-    public Tile[][] getBoard() {
+    public Board getBoard() {
         return this._board;
-    }
-
-    public Tile getTileIJ(int i, int j) {
-        return this._board[i][j];
     }
 
     public void setPosPreview(int i) {
@@ -175,6 +210,21 @@ public final class Game extends Observable {
         } else {
             return null;
         }
+
+    }
+
+    public int getWinner() {
+        return this._winner;
+    }
+
+    public void resetGame() {
+
+        this._board.resetBoard();
+        this._winner = -1;
+        this._currentPlayer = this._player1;
+
+        setChanged();
+        notifyObservers();
 
     }
 

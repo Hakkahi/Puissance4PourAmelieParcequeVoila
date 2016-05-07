@@ -9,6 +9,9 @@ package model;
  *
  * @author hakkahi
  */
-public class Token {
+public abstract class Effect {
+
+    //column et line sont les coordonnées du token qui vient d'être joué
+    public abstract void playEffect(int column, int line, Game game);
 
 }

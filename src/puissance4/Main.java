@@ -5,9 +5,9 @@
  */
 package puissance4;
 
-import controller.Controller;
+import controller.GameController;
 import model.Game;
-import view.*;
+import view.GameView;
 
 /**
  *
@@ -25,9 +25,9 @@ public class Main {
         SimpleMouseListener simpleMouseListener = new SimpleMouseListener(jc);
         GUIHelper.showOnFrame(jc, "test JCanvas");*/
 
-        View board = new View();
+        GameView board = new GameView();   
         Game game = new Game();
-        Controller controller = new Controller(board, game);
+        GameController controller = new GameController(board, game);
         game.addObserver(board);
     }
 }
