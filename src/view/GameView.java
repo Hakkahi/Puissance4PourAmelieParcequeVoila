@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package view;
 
 import java.awt.Color;
@@ -17,10 +12,14 @@ import javax.swing.border.Border;
 import model.Game;
 import model.Player;
 
+
 /**
  *
  * @author hakkahi
+ * 
  */
+
+
 public class GameView extends JFrame implements Observer {
 
     //Settings Frame
@@ -61,15 +60,15 @@ public class GameView extends JFrame implements Observer {
     }
 
     private void initSetingsFrame() {
-        
+
         this._settingsFrame = new JFrame("Puissance4 - Settings");
         this._settingsFrame.setSize(600, 500);
         this._settingsFrame.setResizable(false);
-        this._settingsFrame.setLocationRelativeTo(null);               
+        this._settingsFrame.setLocationRelativeTo(null);
         this._settingsComponentGrid = new JPanel(new GridLayout(3, 1));
         this._settingsPlay = new JButton("Play");
-        this._settingsQuit = new JButton("Quit");        
-        this._settingsSeparator = new JSeparator();        
+        this._settingsQuit = new JButton("Quit");
+        this._settingsSeparator = new JSeparator();
         this._settingsSliderPanel = new JPanel(new GridLayout(4, 1));
         this._settingsSliderEffectChance = new JSlider(JSlider.HORIZONTAL, 0, 100, 50);
         this._settingsSliderEffectChance.setMajorTickSpacing(10);
@@ -78,7 +77,7 @@ public class GameView extends JFrame implements Observer {
         this._settingsSliderEffectChance.setPaintLabels(true);
         this._settingsSliderLabel = new JLabel("Pourcentage de chance d'effet sur une case", JLabel.CENTER);
         this._settingsSliderLabel.setVerticalAlignment(JLabel.BOTTOM);
-                
+
         this._settingsFrame.add(this._settingsComponentGrid);
         this._settingsComponentGrid.add(this._settingsSliderPanel);
         this._settingsSliderPanel.add(this._settingsSliderLabel);
@@ -87,9 +86,9 @@ public class GameView extends JFrame implements Observer {
         this._settingsSliderPanel.add(this._settingsSeparator);
         this._settingsComponentGrid.add(this._settingsPlay);
         this._settingsComponentGrid.add(this._settingsQuit);
-        
-        this._settingsFrame.setVisible(true); 
-        
+
+        this._settingsFrame.setVisible(true);
+
     }
 
     private void initGameFrame() {
@@ -143,7 +142,7 @@ public class GameView extends JFrame implements Observer {
         cWindow.gridy = 1;
         cWindow.weighty = 0.86;
         getGameWindow().add(getGameGrid(), cWindow);
-        
+
         this.setVisible(false);
 
     }
@@ -162,14 +161,14 @@ public class GameView extends JFrame implements Observer {
         this._endGameLabel2.setHorizontalAlignment(JLabel.CENTER);
         this._endGameButtons = new JPanel(new GridLayout(1, 2));
         this._endGamePanel = new JPanel(new GridLayout(3, 1));
-        
+
         this._endGameFrame.add(this._endGamePanel);
         this._endGamePanel.add(this._endGameLabel1);
         this._endGamePanel.add(this._endGameLabel2);
         this._endGamePanel.add(this._endGameButtons);
         this._endGameButtons.add(this._endGamePlay);
         this._endGameButtons.add(this._endGameQuit);
-        
+
         this._endGameFrame.setVisible(false);
 
     }
@@ -200,11 +199,15 @@ public class GameView extends JFrame implements Observer {
                     } else {
                         this.getGameGrid().getComponent((7 * i) + j).setBackground(Color.WHITE);
                     }
-                    /*if(game.getBoard().getTileIJ(i, j).getEffect() != null)
-                    {             
+                    if (game.getBoard().getTileIJ(i, j).getEffect() != null) {
                         JLabel tmps = (JLabel) this.getGameGrid().getComponent((7 * i) + j);
-                        tmps.setBorder(BorderFactory.createLineBorder(Color.RED, _gameBorderSize));
-                    }*/
+                        tmps.setBorder(BorderFactory.createLineBorder(Color.GREEN, _gameBorderSize));
+                    } else {
+
+                        JLabel tmps = (JLabel) this.getGameGrid().getComponent((7 * i) + j);
+                        tmps.setBorder(this._gameBlueLine);
+
+                    }
 
                 }
 
@@ -224,6 +227,15 @@ public class GameView extends JFrame implements Observer {
                 this._endGameFrame.setVisible(true);
 
             }
+            if (game.getOver()) {
+                this._endGameLabel1.setText("Draw !");
+                this._endGameLabel1.setVerticalAlignment(JLabel.CENTER);
+                this._endGameLabel1.setHorizontalAlignment(JLabel.CENTER);
+
+                this.setVisible(false);
+                this._endGameFrame.setVisible(true);
+            }
+
         }
     }
 
@@ -235,22 +247,6 @@ public class GameView extends JFrame implements Observer {
 
         }
 
-    }
-
-    public JPanel getGameWindow() {
-        return _gameWindow;
-    }
-
-    public JPanel getGamePreview() {
-        return this._gamePreview;
-    }
-
-    public JPanel getGameGrid() {
-        return this._gameGrid;
-    }
-
-    public JFrame getMainFrame() {
-        return this;
     }
 
     public void setBorderSize() {
@@ -298,7 +294,7 @@ public class GameView extends JFrame implements Observer {
     public JButton getEndGamePlay() {
         return this._endGamePlay;
     }
-    
+
     public JFrame getSettingsFrame() {
         return this._settingsFrame;
     }
@@ -313,6 +309,22 @@ public class GameView extends JFrame implements Observer {
 
     public JSlider getSettingsTileSlider() {
         return this._settingsSliderEffectChance;
+    }
+
+    public JPanel getGameWindow() {
+        return _gameWindow;
+    }
+
+    public JPanel getGamePreview() {
+        return this._gamePreview;
+    }
+
+    public JPanel getGameGrid() {
+        return this._gameGrid;
+    }
+
+    public JFrame getMainFrame() {
+        return this;
     }
 
 }

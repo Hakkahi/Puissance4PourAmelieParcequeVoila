@@ -1,14 +1,13 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
+
 
 /**
  *
  * @author hakkahi
+ * 
  */
+
+
 public class Tile {
 
     private int _idPlayer;
@@ -18,10 +17,6 @@ public class Tile {
 
         this._idPlayer = _idPlayer;
         this._effect = null;
-    }
-
-    public int getIdPlayer() {
-        return this._idPlayer;
     }
 
     public void setIdPlayer(int id) {
@@ -35,4 +30,9 @@ public class Tile {
     public Effect getEffect() {
         return this._effect;
     }
+
+    public int getIdPlayer() {
+        return this._idPlayer;
+    }
+
 }

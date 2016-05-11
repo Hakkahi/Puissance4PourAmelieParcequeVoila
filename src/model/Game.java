@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package model;
 
 import java.awt.Color;
@@ -10,10 +5,14 @@ import java.util.Observable;
 import java.util.Random;
 import static model.EffectFactory.createEffect;
 
+
 /**
  *
  * @author hakkahi
+ * 
  */
+
+
 public final class Game extends Observable {
 
     private int _posPreview;
@@ -22,10 +21,12 @@ public final class Game extends Observable {
     private final Player _player2;
     private Player _currentPlayer;
     private int _winner;
+    private boolean _over;
 
     public Game() {
 
         this._winner = -1;
+        this._over = false;
 
         this._player1 = new HumanPlayer(1, Color.RED);
         this._player2 = new HumanPlayer(2, Color.YELLOW);
@@ -46,41 +47,47 @@ public final class Game extends Observable {
 
         int i;
 
-        for (i = 5; i >= 0; --i) {
+        if (this._board.getTileIJ(0, column).getIdPlayer() == -1) {
 
-            if (this._board.getTileIJ(i, column).getIdPlayer() == -1) {
+            for (i = 0; i < 6; ++i) {
 
-                this._board.getTileIJ(i, column).setIdPlayer(this._currentPlayer.getId());
-
-                break;
+                if (this._board.getTileIJ(i, column).getIdPlayer() != -1) {
+                    break;
+                }
 
             }
 
-        }
-        if (this._board.getTileIJ(i, column).getEffect() != null) {
-            this._board.getTileIJ(i, column).getEffect().playEffect(i, column, this);
-        }
+            if (i > 0) {
 
-        Player tmp = Win();
-        if (tmp != null) {
-            this._winner = tmp.getId();
+                i--;
+                this._board.getTileIJ(i, column).setIdPlayer(this._currentPlayer.getId());
+
+            }
+
+            if (this._board.getTileIJ(i, column).getEffect() != null) {
+                this._board.getTileIJ(i, column).getEffect().playEffect(i, column, this);
+            }
+
+            Player tmp = Win();
+            if (tmp != null) {
+                this._winner = tmp.getId();
+            }
+
+            isOver();
+
+            if (this._currentPlayer.getId() == this._player1.getId()) {
+                _currentPlayer = _player2;
+            } else {
+                _currentPlayer = _player1;
+            }
+
+            setChanged();
+            notifyObservers();
         }
-
-        if (this._currentPlayer.getId() == this._player1.getId()) {
-            _currentPlayer = _player2;
-        } else {
-            _currentPlayer = _player1;
-        }
-
-        setChanged();
-        notifyObservers();
-
     }
 
     public boolean strokeIsValid(int column) {
-
         return this._board.getTileIJ(0, column).getIdPlayer() == -1;
-
     }
 
     public Player Win() {
@@ -157,6 +164,39 @@ public final class Game extends Observable {
 
     }
 
+    public void isOver() {
+
+        for (int i = 0; i < 6; ++i) {
+
+            for (int j = 0; j < 7; j++) {
+
+                if (this._board.getTileIJ(i, j).getIdPlayer() == -1) {
+                    return;
+                }
+
+            }
+
+        }
+
+        this._over = true;
+
+    }
+
+    public void resetGame() {
+
+        this._board.resetBoard();
+        this._winner = -1;
+        this._currentPlayer = this._player1;
+
+        setChanged();
+        notifyObservers();
+
+    }
+
+    public void resetPosPreview() {
+        setPosPreview(-1);
+    }
+
     public void setTilesEffect() {
 
         for (int i = 0; i < 6; ++i) {
@@ -177,14 +217,6 @@ public final class Game extends Observable {
 
     }
 
-    public int getPosPreview() {
-        return _posPreview;
-    }
-
-    public Board getBoard() {
-        return this._board;
-    }
-
     public void setPosPreview(int i) {
 
         this._posPreview = i;
@@ -193,8 +225,12 @@ public final class Game extends Observable {
 
     }
 
-    public void resetPosPreview() {
-        setPosPreview(-1);
+    public int getPosPreview() {
+        return _posPreview;
+    }
+
+    public Board getBoard() {
+        return this._board;
     }
 
     public Player getCurrentPlayer() {
@@ -217,15 +253,8 @@ public final class Game extends Observable {
         return this._winner;
     }
 
-    public void resetGame() {
-
-        this._board.resetBoard();
-        this._winner = -1;
-        this._currentPlayer = this._player1;
-
-        setChanged();
-        notifyObservers();
-
+    public boolean getOver() {
+        return this._over;
     }
 
 }

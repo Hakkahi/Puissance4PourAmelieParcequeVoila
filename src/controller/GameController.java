@@ -1,8 +1,3 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
- */
 package controller;
 
 import java.awt.event.ActionEvent;
@@ -17,10 +12,14 @@ import model.Game;
 import model.HumanPlayer;
 import view.GameView;
 
+
 /**
  *
  * @author hakkahi
+ * 
  */
+
+
 public final class GameController {
 
     private final GameView _view;
@@ -42,6 +41,7 @@ public final class GameController {
     //End Game Listener
     private ActionListener _endGamePlay;
     private ActionListener _endGameQuit;
+    private WindowAdapter _endGameClosingWindow;
 
     public GameController(GameView view, Game game) {
 
@@ -139,6 +139,7 @@ public final class GameController {
 
                             if (_game.strokeIsValid(column)) {
                                 _game.playMove(column);
+                                
                             }
                         }
 
@@ -206,7 +207,16 @@ public final class GameController {
     }
 
     public void initEndGameController() {
+        
+        this._endGameClosingWindow = new WindowAdapter() {
 
+            @Override
+            public void windowClosing(WindowEvent e) {
+                quit();
+            }
+
+        };
+        
         this._endGamePlay = (ActionEvent e) -> {
             playAgain();
         };
@@ -216,6 +226,7 @@ public final class GameController {
         
         this._view.getEndGameQuit().addActionListener(_endGameQuit);
         this._view.getEndGamePlay().addActionListener(_endGamePlay);
+        this._view.getEndGameFrame().addWindowListener(_gameClosingWindow);
 
     }
 
