@@ -12,14 +12,11 @@ import javax.swing.border.Border;
 import model.Game;
 import model.Player;
 
-
 /**
  *
  * @author hakkahi
- * 
+ *
  */
-
-
 public class GameView extends JFrame implements Observer {
 
     //Settings Frame
@@ -49,11 +46,17 @@ public class GameView extends JFrame implements Observer {
     private JButton _endGamePlay;
     private JPanel _endGamePanel;
     private JPanel _endGameButtons;
+    
+    private final int _width;
+    private final int _height;
 
-    public GameView() {
+    public GameView(int width, int height) {
 
         super("Puissance4 - Game");
-
+        
+        this._width = width;
+        this._height = height;
+        
         initSetingsFrame();
         initGameFrame();
         initEndGameFrame();
@@ -97,8 +100,8 @@ public class GameView extends JFrame implements Observer {
         this.setLocationRelativeTo(null);
 
         this._gameWindow = new JPanel(new GridBagLayout());
-        this._gameGrid = new JPanel(new GridLayout(6, 7));
-        this._gamePreview = new JPanel(new GridLayout(1, 6));
+        this._gameGrid = new JPanel(new GridLayout(this._height, this._width));
+        this._gamePreview = new JPanel(new GridLayout(1, this._height));
 
         _gameBlueLine = BorderFactory.createLineBorder(Color.BLUE, _gameBorderSize);
 
@@ -106,7 +109,7 @@ public class GameView extends JFrame implements Observer {
 
         this._gameGrid.setBackground(Color.WHITE);
 
-        for (int i = 0; i < 42; i++) {
+        for (int i = 0; i < this._width * this._height; i++) {
             JLabel labelGrid = new JLabel();
             labelGrid.setBorder(_gameBlueLine);
             labelGrid.setOpaque(true);
@@ -116,7 +119,7 @@ public class GameView extends JFrame implements Observer {
             this.getGameGrid().add(labelGrid);
         }
 
-        for (int i = 0; i < 7; i++) {
+        for (int i = 0; i < this._width; i++) {
 
             JLabel labelPreview = new JLabel();
             labelPreview.setOpaque(true);
@@ -188,23 +191,23 @@ public class GameView extends JFrame implements Observer {
 
             }
 
-            for (int i = 0; i < 6; ++i) {
+            for (int i = 0; i < this._height; ++i) {
 
-                for (int j = 0; j < 7; ++j) {
+                for (int j = 0; j < this._width; ++j) {
 
                     Player tmp = game.getPlayerById(game.getBoard().getTileIJ(i, j).getIdPlayer());
 
                     if (tmp != null) {
-                        this.getGameGrid().getComponent((7 * i) + j).setBackground(tmp.getColor());
+                        this.getGameGrid().getComponent((this._width * i) + j).setBackground(tmp.getColor());
                     } else {
-                        this.getGameGrid().getComponent((7 * i) + j).setBackground(Color.WHITE);
+                        this.getGameGrid().getComponent((this._width * i) + j).setBackground(Color.WHITE);
                     }
                     if (game.getBoard().getTileIJ(i, j).getEffect() != null) {
-                        JLabel tmps = (JLabel) this.getGameGrid().getComponent((7 * i) + j);
+                        JLabel tmps = (JLabel) this.getGameGrid().getComponent((this._width * i) + j);
                         tmps.setBorder(BorderFactory.createLineBorder(Color.GREEN, _gameBorderSize));
                     } else {
 
-                        JLabel tmps = (JLabel) this.getGameGrid().getComponent((7 * i) + j);
+                        JLabel tmps = (JLabel) this.getGameGrid().getComponent((this._width * i) + j);
                         tmps.setBorder(this._gameBlueLine);
 
                     }
@@ -216,7 +219,7 @@ public class GameView extends JFrame implements Observer {
 
                 this._endGameLabel1.setText("Player 2 Wins !");
 
-                if (game.getWinner() == 1) {
+                if (game.getWinner() == game.getPlayer1().getId()) {
                     this._endGameLabel1.setText("Player 1 Wins !");
                 }
 
@@ -241,7 +244,7 @@ public class GameView extends JFrame implements Observer {
 
     public void resetPreview() {
 
-        for (int i = 0; i < 7; ++i) {
+        for (int i = 0; i < this._width; ++i) {
 
             this.getGamePreview().getComponent(i).setBackground(Color.WHITE);
 
@@ -275,7 +278,7 @@ public class GameView extends JFrame implements Observer {
     public void setLabelBorder() {
 
         JLabel tmp;
-        for (int i = 0; i < 42; ++i) {
+        for (int i = 0; i < this._width * this._height; ++i) {
 
             tmp = (JLabel) this.getGameGrid().getComponent(i);
             tmp.setBorder(_gameBlueLine);

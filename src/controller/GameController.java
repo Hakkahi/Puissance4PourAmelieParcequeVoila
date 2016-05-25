@@ -12,14 +12,11 @@ import model.Game;
 import model.HumanPlayer;
 import view.GameView;
 
-
 /**
  *
  * @author hakkahi
- * 
+ *
  */
-
-
 public final class GameController {
 
     private final GameView _view;
@@ -48,15 +45,15 @@ public final class GameController {
         //On initialise la vue du controller
         this._view = view;
         this._game = game;
-        
+
         initSetingsController();
         initGameController();
-        initEndGameController();   
+        initEndGameController();
 
     }
 
     public void initSetingsController() {
-        
+
         this._settingsClosingWindow = new WindowAdapter() {
 
             @Override
@@ -77,18 +74,18 @@ public final class GameController {
         this._view.getSettingsFrame().addWindowListener(_settingsClosingWindow);
         this._view.getSettingsQuitButton().addActionListener(_settingsQuit);
         this._view.getSettingsPlayButton().addActionListener(_settingsPlay);
-        
+
     }
 
     public void initGameController() {
 
         //On initialise les matrices d'évènement de la partie Grid
-        this._gameSelectColumnGrid = new MouseAdapter[6][7];
-        this._gameClickColumnGrid = new MouseAdapter[6][7];
+        this._gameSelectColumnGrid = new MouseAdapter[this._game.getBoard().getHeight()][this._game.getBoard().getWidth()];
+        this._gameClickColumnGrid = new MouseAdapter[this._game.getBoard().getHeight()][this._game.getBoard().getWidth()];
 
         //On initialise les matrices d'évènement de la partie Preview
-        this._gameSelectColumnPreview = new MouseAdapter[7];
-        this._gameClickColumnPreview = new MouseAdapter[7];
+        this._gameSelectColumnPreview = new MouseAdapter[this._game.getBoard().getWidth()];
+        this._gameClickColumnPreview = new MouseAdapter[this._game.getBoard().getWidth()];
 
         //Création de l'évènement qui quitte le jeu lors d'un clique de la croix
         this._gameClosingWindow = new WindowAdapter() {
@@ -112,9 +109,9 @@ public final class GameController {
         };
 
         //Création des évènements de souris dans la partie Grid
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < this._game.getBoard().getHeight(); ++i) {
 
-            for (int j = 0; j < 7; ++j) {
+            for (int j = 0; j < this._game.getBoard().getWidth(); ++j) {
 
                 final int column = j;
                 final int line = i;
@@ -139,7 +136,7 @@ public final class GameController {
 
                             if (_game.strokeIsValid(column)) {
                                 _game.playMove(column);
-                                
+
                             }
                         }
 
@@ -151,7 +148,7 @@ public final class GameController {
         }
 
         //Création des évènements de souris dans la partie preview
-        for (int i = 0; i < 7; ++i) {
+        for (int i = 0; i < this._game.getBoard().getWidth(); ++i) {
 
             final int column = i;
 
@@ -178,16 +175,16 @@ public final class GameController {
             };
 
         }
-        
+
         //Ajout des évènements crées à leurs éléments dans la vue
         this._view.getMainFrame().addWindowListener(_gameClosingWindow);
 
         this._view.getMainFrame().addComponentListener(_gameResizingWindow);
 
         int count = 0;
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < this._game.getBoard().getHeight(); ++i) {
 
-            for (int j = 0; j < 7; ++j) {
+            for (int j = 0; j < this._game.getBoard().getWidth(); ++j) {
 
                 this._view.getGameGrid().getComponent(count).addMouseListener(this._gameSelectColumnGrid[i][j]);
                 this._view.getGameGrid().getComponent(count).addMouseListener(this._gameClickColumnGrid[i][j]);
@@ -197,7 +194,7 @@ public final class GameController {
 
         }
 
-        for (int i = 0; i < 7; ++i) {
+        for (int i = 0; i < this._game.getBoard().getWidth(); ++i) {
 
             this._view.getGamePreview().getComponent(i).addMouseListener(this._gameSelectColumnPreview[i]);
             this._view.getGamePreview().getComponent(i).addMouseListener(this._gameClickColumnPreview[i]);
@@ -207,7 +204,7 @@ public final class GameController {
     }
 
     public void initEndGameController() {
-        
+
         this._endGameClosingWindow = new WindowAdapter() {
 
             @Override
@@ -216,14 +213,14 @@ public final class GameController {
             }
 
         };
-        
+
         this._endGamePlay = (ActionEvent e) -> {
             playAgain();
         };
         this._endGameQuit = (ActionEvent e) -> {
             quit();
         };
-        
+
         this._view.getEndGameQuit().addActionListener(_endGameQuit);
         this._view.getEndGamePlay().addActionListener(_endGamePlay);
         this._view.getEndGameFrame().addWindowListener(_gameClosingWindow);
@@ -241,16 +238,16 @@ public final class GameController {
         this._game.resetGame();
 
     }
-    
+
     private void startGame() {
-        
+
         this._game.getBoard().setEffectChances(this._view.getSettingsTileSlider().getValue());
-        
-        this._game.setTilesEffect();        
-        
+
+        this._game.setTilesEffect();
+
         this._view.getSettingsFrame().setVisible(false);
         this._view.setVisible(true);
-                
+
     }
 
 }

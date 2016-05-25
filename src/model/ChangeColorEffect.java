@@ -1,13 +1,10 @@
 package model;
 
-
 /**
  *
  * @author hakkahi
- * 
+ *
  */
-
-
 public class ChangeColorEffect extends Effect {
 
     @Override
@@ -15,10 +12,10 @@ public class ChangeColorEffect extends Effect {
 
         int id = game.getBoard().getTileIJ(line, column).getIdPlayer();
 
-        if (id == 1) {
-            game.getBoard().getTileIJ(line, column).setIdPlayer(2);
+        if (id == game.getPlayer1().getId()) {
+            game.getBoard().getTileIJ(line, column).setIdPlayer(game.getPlayer2().getId());
         } else {
-            game.getBoard().getTileIJ(line, column).setIdPlayer(1);
+            game.getBoard().getTileIJ(line, column).setIdPlayer(game.getPlayer1().getId());
         }
 
     }

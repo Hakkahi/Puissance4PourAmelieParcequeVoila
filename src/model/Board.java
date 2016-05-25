@@ -1,30 +1,31 @@
 package model;
 
-
 /**
  *
  * @author hakkahi
- * 
+ *
  */
-
-
 public class Board {
 
     private final Tile[][] _board;
     private int _tileEffectChance;
+    private final int _width;
+    private final int _height;
 
-    public Board() {
+    public Board(int width, int height) {
 
-        this._board = new Tile[6][7];
+        this._width = width;
+        this._height = height;
+        this._board = new Tile[this._height][this._width];
         init();
 
     }
 
     private void init() {
 
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < this._height; ++i) {
 
-            for (int j = 0; j < 7; ++j) {
+            for (int j = 0; j < this._width; ++j) {
                 this._board[i][j] = new Tile(-1);
             }
 
@@ -34,9 +35,9 @@ public class Board {
 
     public void resetBoard() {
 
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < this._height; ++i) {
 
-            for (int j = 0; j < 7; ++j) {
+            for (int j = 0; j < this._width; ++j) {
 
                 this._board[i][j].setEffect(null);
                 this._board[i][j].setIdPlayer(-1);
@@ -57,6 +58,14 @@ public class Board {
 
     public int getTileEffectChance() {
         return this._tileEffectChance;
+    }
+
+    public int getWidth() {
+        return this._width;
+    }
+
+    public int getHeight() {
+        return this._height;
     }
 
 }

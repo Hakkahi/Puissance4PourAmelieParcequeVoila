@@ -5,14 +5,11 @@ import java.util.Observable;
 import java.util.Random;
 import static model.EffectFactory.createEffect;
 
-
 /**
  *
  * @author hakkahi
- * 
+ *
  */
-
-
 public final class Game extends Observable {
 
     private int _posPreview;
@@ -23,7 +20,7 @@ public final class Game extends Observable {
     private int _winner;
     private boolean _over;
 
-    public Game() {
+    public Game(int width, int height) {
 
         this._winner = -1;
         this._over = false;
@@ -31,7 +28,7 @@ public final class Game extends Observable {
         this._player1 = new HumanPlayer(1, Color.RED);
         this._player2 = new HumanPlayer(2, Color.YELLOW);
         this._currentPlayer = this._player1;
-        this._board = new Board();
+        this._board = new Board(width, height);
 
         init();
 
@@ -49,7 +46,7 @@ public final class Game extends Observable {
 
         if (this._board.getTileIJ(0, column).getIdPlayer() == -1) {
 
-            for (i = 0; i < 6; ++i) {
+            for (i = 0; i < this._board.getHeight(); ++i) {
 
                 if (this._board.getTileIJ(i, column).getIdPlayer() != -1) {
                     break;
@@ -93,9 +90,9 @@ public final class Game extends Observable {
     public Player Win() {
 
         //Vérification des lignes
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < this._board.getHeight(); ++i) {
 
-            for (int j = 0; j < 4; ++j) {
+            for (int j = 0; j <= (this._board.getWidth() - 4); ++j) {
 
                 if (this._player1.getId() == this._board.getTileIJ(i, j).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(i, j + 1).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(i, j + 2).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(i, j + 3).getIdPlayer()) {
                     return _player1;
@@ -110,9 +107,9 @@ public final class Game extends Observable {
         }
 
         //Vérification des colonnes
-        for (int i = 0; i < 7; ++i) {
+        for (int i = 0; i < this._board.getWidth(); ++i) {
 
-            for (int j = 0; j < 3; ++j) {
+            for (int j = 0; j <= (this._board.getHeight() - 4); ++j) {
 
                 if (this._player1.getId() == this._board.getTileIJ(j, i).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 1, i).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 2, i).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 3, i).getIdPlayer()) {
                     return _player1;
@@ -127,9 +124,9 @@ public final class Game extends Observable {
         }
 
         //Vérification des diagonales droites
-        for (int i = 0; i < 4; ++i) {
+        for (int i = 0; i <= (this._board.getWidth() - 4); ++i) {
 
-            for (int j = 0; j < 3; ++j) {
+            for (int j = 0; j <= (this._board.getHeight() - 4); ++j) {
 
                 if (this._player1.getId() == this._board.getTileIJ(j, i).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 1, i + 1).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 2, i + 2).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 3, i + 3).getIdPlayer()) {
                     return _player1;
@@ -144,9 +141,9 @@ public final class Game extends Observable {
         }
 
         //Vérification des diagonales gauches
-        for (int i = 6; i > 2; --i) {
+        for (int i = this._board.getHeight(); i >= (this._board.getWidth() - 4); --i) {
 
-            for (int j = 0; j < 3; ++j) {
+            for (int j = 0; j <= (this._board.getHeight() - 4); ++j) {
 
                 if (this._player1.getId() == this._board.getTileIJ(j, i).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 1, i - 1).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 2, i - 2).getIdPlayer() && this._player1.getId() == this._board.getTileIJ(j + 3, i - 3).getIdPlayer()) {
                     return _player1;
@@ -166,9 +163,9 @@ public final class Game extends Observable {
 
     public void isOver() {
 
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < this._board.getHeight(); ++i) {
 
-            for (int j = 0; j < 7; j++) {
+            for (int j = 0; j < this._board.getWidth(); j++) {
 
                 if (this._board.getTileIJ(i, j).getIdPlayer() == -1) {
                     return;
@@ -199,9 +196,9 @@ public final class Game extends Observable {
 
     public void setTilesEffect() {
 
-        for (int i = 0; i < 6; ++i) {
+        for (int i = 0; i < this._board.getHeight(); ++i) {
 
-            for (int j = 0; j < 7; ++j) {
+            for (int j = 0; j < this._board.getWidth(); ++j) {
 
                 Random rand = new Random();
                 //Tire un nombre aléatoire entre min et max compris
@@ -255,6 +252,58 @@ public final class Game extends Observable {
 
     public boolean getOver() {
         return this._over;
+    }
+
+    public int getTilesCountPlayer1() {
+
+        int count = 0;
+
+        for (int i = 0; i < this._board.getHeight(); ++i) {
+
+            for (int j = 0; j < this._board.getWidth(); ++j) {
+
+                if (this._board.getTileIJ(i, j).getIdPlayer() == this._player1.getId()) {
+                    count++;
+                }
+
+            }
+
+        }
+
+        return count;
+
+    }
+
+    public int getTilesCountPlayer2() {
+
+        int count = 0;
+
+        for (int i = 0; i < this._board.getHeight(); ++i) {
+
+            for (int j = 0; j < this._board.getWidth(); ++j) {
+
+                if (this._board.getTileIJ(i, j).getIdPlayer() == this._player2.getId()) {
+                    count++;
+                }
+
+            }
+
+        }
+
+        return count;
+
+    }
+
+    public int getTotalTilesCount() {
+        return getTilesCountPlayer1() + getTilesCountPlayer2();
+    }
+
+    public Player getPlayer1() {
+        return this._player1;
+    }
+
+    public Player getPlayer2() {
+        return this._player2;
     }
 
 }

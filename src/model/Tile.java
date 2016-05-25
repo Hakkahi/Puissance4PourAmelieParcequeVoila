@@ -1,13 +1,10 @@
 package model;
 
-
 /**
  *
  * @author hakkahi
- * 
+ *
  */
-
-
 public class Tile {
 
     private int _idPlayer;
