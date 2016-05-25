@@ -13,14 +13,14 @@ import static model.EffectFactory.createEffect;
 public final class Game extends Observable {
 
     private int _posPreview;
-    private final Board _board;
+    private Board _board;
     private final Player _player1;
     private final Player _player2;
     private Player _currentPlayer;
     private int _winner;
     private boolean _over;
 
-    public Game(int width, int height) {
+    public Game() {
 
         this._winner = -1;
         this._over = false;
@@ -28,7 +28,7 @@ public final class Game extends Observable {
         this._player1 = new HumanPlayer(1, Color.RED);
         this._player2 = new HumanPlayer(2, Color.YELLOW);
         this._currentPlayer = this._player1;
-        this._board = new Board(width, height);
+        //this._board = new Board(width, height);
 
         init();
 
@@ -140,7 +140,7 @@ public final class Game extends Observable {
 
         }
 
-        //Vérification des diagonales gauches
+        /*//Vérification des diagonales gauches
         for (int i = this._board.getHeight(); i >= (this._board.getWidth() - 4); --i) {
 
             for (int j = 0; j <= (this._board.getHeight() - 4); ++j) {
@@ -155,7 +155,7 @@ public final class Game extends Observable {
 
             }
 
-        }
+        }*/
 
         return null;
 
@@ -220,6 +220,10 @@ public final class Game extends Observable {
         setChanged();
         notifyObservers();
 
+    }
+
+    public void setBoard(Board board) {
+        this._board = board;
     }
 
     public int getPosPreview() {

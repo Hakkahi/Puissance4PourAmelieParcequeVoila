@@ -17,7 +17,7 @@ import model.Player;
  * @author hakkahi
  *
  */
-public class GameView extends JFrame implements Observer {
+public final class GameView extends JFrame implements Observer {
 
     //Settings Frame
     private JFrame _settingsFrame;
@@ -31,12 +31,12 @@ public class GameView extends JFrame implements Observer {
 
     //Game Frame (Main Frame)
     private JPanel _gameWindow;
-    private JPanel _gamePreview;
-    private JPanel _gameGrid;
+    public static JPanel _gamePreview;
+    public static JPanel _gameRowsGrid;
     private int _gameWindowHeight = 800;
     private int _gameWindowWidth = 600;
     private int _gameBorderSize = (_gameWindowWidth * 1) / 100;
-    private Border _gameBlueLine;
+    private static Border _gameBlueLine;
 
     //End Game Frame
     private JFrame _endGameFrame;
@@ -46,18 +46,16 @@ public class GameView extends JFrame implements Observer {
     private JButton _endGamePlay;
     private JPanel _endGamePanel;
     private JPanel _endGameButtons;
-    
-    private final int _width;
-    private final int _height;
 
-    public GameView(int width, int height) {
+    private static int _width;
+    private static int _height;
+
+    public GameView() {
 
         super("Puissance4 - Game");
-        
-        this._width = width;
-        this._height = height;
-        
+
         initSetingsFrame();
+        this.setVisible(false);
         initGameFrame();
         initEndGameFrame();
     }
@@ -94,42 +92,22 @@ public class GameView extends JFrame implements Observer {
 
     }
 
-    private void initGameFrame() {
+    public void initGameFrame() {
 
         this.setSize(_gameWindowHeight, _gameWindowWidth);
         this.setLocationRelativeTo(null);
 
         this._gameWindow = new JPanel(new GridBagLayout());
-        this._gameGrid = new JPanel(new GridLayout(this._height, this._width));
-        this._gamePreview = new JPanel(new GridLayout(1, this._height));
+        _gameRowsGrid = new JPanel(new GridLayout(1, 0));
+        _gamePreview = new JPanel(new GridLayout(1, 0));
 
         _gameBlueLine = BorderFactory.createLineBorder(Color.BLUE, _gameBorderSize);
 
         GridBagConstraints cWindow = new GridBagConstraints();
 
-        this._gameGrid.setBackground(Color.WHITE);
+        _gameRowsGrid.setBackground(Color.WHITE);
 
-        for (int i = 0; i < this._width * this._height; i++) {
-            JLabel labelGrid = new JLabel();
-            labelGrid.setBorder(_gameBlueLine);
-            labelGrid.setOpaque(true);
-            labelGrid.setBackground(Color.WHITE);
-            labelGrid.setVerticalAlignment(SwingConstants.CENTER);
-            labelGrid.setHorizontalAlignment(SwingConstants.CENTER);
-            this.getGameGrid().add(labelGrid);
-        }
-
-        for (int i = 0; i < this._width; i++) {
-
-            JLabel labelPreview = new JLabel();
-            labelPreview.setOpaque(true);
-            labelPreview.setBackground(Color.WHITE);
-            labelPreview.setVerticalAlignment(SwingConstants.CENTER);
-            labelPreview.setHorizontalAlignment(SwingConstants.CENTER);
-            this.getGamePreview().add(labelPreview);
-        }
-
-        this._gamePreview.setBackground(Color.WHITE);
+        _gamePreview.setBackground(Color.WHITE);
 
         this.add(getGameWindow());
 
@@ -144,7 +122,7 @@ public class GameView extends JFrame implements Observer {
         cWindow.gridx = 0;
         cWindow.gridy = 1;
         cWindow.weighty = 0.86;
-        getGameWindow().add(getGameGrid(), cWindow);
+        getGameWindow().add(getGameRowsGrid(), cWindow);
 
         this.setVisible(false);
 
@@ -191,24 +169,34 @@ public class GameView extends JFrame implements Observer {
 
             }
 
-            for (int i = 0; i < this._height; ++i) {
+            for (int i = 0; i < _width; ++i) {
 
-                for (int j = 0; j < this._width; ++j) {
+                for (int j = 0; j < _height; ++j) {
 
-                    Player tmp = game.getPlayerById(game.getBoard().getTileIJ(i, j).getIdPlayer());
+                    Player tmp = game.getPlayerById(game.getBoard().getTileIJ(j, i).getIdPlayer());
 
                     if (tmp != null) {
-                        this.getGameGrid().getComponent((this._width * i) + j).setBackground(tmp.getColor());
-                    } else {
-                        this.getGameGrid().getComponent((this._width * i) + j).setBackground(Color.WHITE);
-                    }
-                    if (game.getBoard().getTileIJ(i, j).getEffect() != null) {
-                        JLabel tmps = (JLabel) this.getGameGrid().getComponent((this._width * i) + j);
-                        tmps.setBorder(BorderFactory.createLineBorder(Color.GREEN, _gameBorderSize));
+
+                        JPanel panelTmp = (JPanel) _gameRowsGrid.getComponent(i);
+                        panelTmp.getComponent(j).setBackground(tmp.getColor());
+
                     } else {
 
-                        JLabel tmps = (JLabel) this.getGameGrid().getComponent((this._width * i) + j);
-                        tmps.setBorder(this._gameBlueLine);
+                        JPanel panelTmp = (JPanel) _gameRowsGrid.getComponent(i);
+                        panelTmp.getComponent(j).setBackground(Color.WHITE);
+
+                    }
+                    if (game.getBoard().getTileIJ(j, i).getEffect() != null) {
+
+                        JPanel panelTmp = (JPanel) _gameRowsGrid.getComponent(i);
+                        JLabel tmps = (JLabel) panelTmp.getComponent(j);
+                        tmps.setBorder(BorderFactory.createLineBorder(Color.GREEN, _gameBorderSize));
+
+                    } else {
+
+                        JPanel panelTmp = (JPanel) _gameRowsGrid.getComponent(i);
+                        JLabel tmps = (JLabel) panelTmp.getComponent(j);
+                        tmps.setBorder(_gameBlueLine);
 
                     }
 
@@ -244,12 +232,50 @@ public class GameView extends JFrame implements Observer {
 
     public void resetPreview() {
 
-        for (int i = 0; i < this._width; ++i) {
+        for (int i = 0; i < _width; ++i) {
 
             this.getGamePreview().getComponent(i).setBackground(Color.WHITE);
 
         }
 
+    }
+
+    public static void fillGrids() {
+
+        for (int i = 0; i < _width; i++) {
+
+            JPanel gameColsGrid = new JPanel(new GridLayout(0, 1));
+
+            for (int j = 0; j < _height; ++j) {
+
+                JLabel labelGrid = new JLabel();
+                labelGrid.setBorder(_gameBlueLine);
+                labelGrid.setOpaque(true);
+                labelGrid.setBackground(Color.WHITE);
+                labelGrid.setVerticalAlignment(SwingConstants.CENTER);
+                labelGrid.setHorizontalAlignment(SwingConstants.CENTER);
+                gameColsGrid.add(labelGrid);
+
+            }
+
+            _gameRowsGrid.add(gameColsGrid);
+        }
+
+        for (int i = 0; i < _width; i++) {
+
+            JLabel labelPreview = new JLabel();
+            labelPreview.setOpaque(true);
+            labelPreview.setBackground(Color.WHITE);
+            labelPreview.setVerticalAlignment(SwingConstants.CENTER);
+            labelPreview.setHorizontalAlignment(SwingConstants.CENTER);
+            _gamePreview.add(labelPreview);
+        }
+
+    }
+
+    public void resetView() {
+        _gameRowsGrid.removeAll();
+        _gamePreview.removeAll();
     }
 
     public void setBorderSize() {
@@ -277,13 +303,27 @@ public class GameView extends JFrame implements Observer {
 
     public void setLabelBorder() {
 
-        JLabel tmp;
-        for (int i = 0; i < this._width * this._height; ++i) {
+        for (int i = 0; i < _width; i++) {
 
-            tmp = (JLabel) this.getGameGrid().getComponent(i);
-            tmp.setBorder(_gameBlueLine);
+            JPanel gameColsGrid = new JPanel(new GridLayout(0, 1));
+
+            for (int j = 0; j < _height; ++j) {
+                JPanel panelTmp = (JPanel) _gameRowsGrid.getComponent(i);
+                JLabel tmps = (JLabel) panelTmp.getComponent(j);
+                tmps.setBorder(_gameBlueLine);
+
+            }
+
         }
 
+    }
+
+    public void setWidth(int width) {
+        _width = width;
+    }
+
+    public void setHeight(int height) {
+        _height = height;
     }
 
     public JFrame getEndGameFrame() {
@@ -319,11 +359,11 @@ public class GameView extends JFrame implements Observer {
     }
 
     public JPanel getGamePreview() {
-        return this._gamePreview;
+        return _gamePreview;
     }
 
-    public JPanel getGameGrid() {
-        return this._gameGrid;
+    public JPanel getGameRowsGrid() {
+        return _gameRowsGrid;
     }
 
     public JFrame getMainFrame() {

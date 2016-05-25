@@ -7,15 +7,16 @@ package model;
  */
 public class Board {
 
-    private final Tile[][] _board;
+    private Tile[][] _board;
     private int _tileEffectChance;
-    private final int _width;
-    private final int _height;
+    private int _width;
+    private int _height;
 
     public Board(int width, int height) {
-
+        
         this._width = width;
         this._height = height;
+        
         this._board = new Tile[this._height][this._width];
         init();
 
@@ -50,6 +51,14 @@ public class Board {
 
     public void setEffectChances(int tileEffectChance) {
         this._tileEffectChance = tileEffectChance;
+    }
+
+    public void setWidth(int width) {
+        this._width = width;
+    }
+
+    public void setHeight(int height) {
+        this._height = height;
     }
 
     public Tile getTileIJ(int i, int j) {

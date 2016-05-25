@@ -13,8 +13,8 @@ public class Main {
 
     public static void main(String args[]) {
 
-        Game game = new Game(10, 9);
-        GameView board = new GameView(10, 9);
+        Game game = new Game();
+        GameView board = new GameView();
         GameController controller = new GameController(board, game);
         game.addObserver(board);
 

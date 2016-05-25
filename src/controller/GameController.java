@@ -1,5 +1,6 @@
 package controller;
 
+import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -8,6 +9,10 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
+import javax.swing.JLabel;
+import javax.swing.JPanel;
+import javax.swing.SwingConstants;
+import model.Board;
 import model.Game;
 import model.HumanPlayer;
 import view.GameView;
@@ -47,7 +52,6 @@ public final class GameController {
         this._game = game;
 
         initSetingsController();
-        initGameController();
         initEndGameController();
 
     }
@@ -180,15 +184,14 @@ public final class GameController {
         this._view.getMainFrame().addWindowListener(_gameClosingWindow);
 
         this._view.getMainFrame().addComponentListener(_gameResizingWindow);
+        
+        for (int i = 0; i < this._game.getBoard().getWidth(); ++i) {
+            
+            for (int j = 0; j < this._game.getBoard().getHeight(); ++j) {
 
-        int count = 0;
-        for (int i = 0; i < this._game.getBoard().getHeight(); ++i) {
-
-            for (int j = 0; j < this._game.getBoard().getWidth(); ++j) {
-
-                this._view.getGameGrid().getComponent(count).addMouseListener(this._gameSelectColumnGrid[i][j]);
-                this._view.getGameGrid().getComponent(count).addMouseListener(this._gameClickColumnGrid[i][j]);
-                count++;
+                JPanel tmp = (JPanel) this._view.getGameRowsGrid().getComponent(i);
+                tmp.getComponent(j).addMouseListener(this._gameSelectColumnGrid[j][i]);
+                tmp.getComponent(j).addMouseListener(this._gameClickColumnGrid[j][i]);
 
             }
 
@@ -236,16 +239,29 @@ public final class GameController {
         this._view.getEndGameFrame().setVisible(false);
         this._view.getSettingsFrame().setVisible(true);
         this._game.resetGame();
+        this._view.resetView();
 
     }
 
     private void startGame() {
 
+        int width = 10;
+        int height = 10;
+
+        Board board = new Board(width, height);
+        this._game.setBoard(board);
         this._game.getBoard().setEffectChances(this._view.getSettingsTileSlider().getValue());
 
         this._game.setTilesEffect();
 
+        this._view.setWidth(width);
+        this._view.setHeight(height);
+        GameView.fillGrids();
+
+        initGameController();
+
         this._view.getSettingsFrame().setVisible(false);
+
         this._view.setVisible(true);
 
     }
