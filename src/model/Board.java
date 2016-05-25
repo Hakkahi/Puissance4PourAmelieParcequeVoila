@@ -77,4 +77,48 @@ public class Board {
         return this._height;
     }
 
+    
+    @Override
+    public String toString() {
+
+        String boardString = "";    
+
+        for (int i = 0; i < this._height; ++i) {
+
+            for (int j = 0; j < this._width; ++j) {
+
+                boardString += this._board[i][j].getIdPlayer();
+
+            }
+            boardString += "\n";
+
+        }
+        return boardString;
+    }
+    
+    public String toStringSymbols() {
+
+        String boardString = "";    
+        int idPlayer;
+
+        for (int i = 0; i < this._height; ++i) {
+
+            for (int j = 0; j < this._width; ++j) {
+
+                idPlayer = this._board[i][j].getIdPlayer();
+                if(idPlayer == 1){
+                    boardString += "x";
+                }else if(idPlayer == 2){
+                    boardString += "o";
+                }else{
+                    boardString += "-";
+                }
+
+            }
+            boardString += "\n";
+
+        }
+        return boardString;
+    }
+
 }
