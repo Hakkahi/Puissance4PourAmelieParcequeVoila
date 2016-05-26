@@ -120,5 +120,49 @@ public class Board {
         }
         return boardString;
     }
+    
+    public int getTilesCountPlayer1() {
+
+        int count = 0;
+
+        for (int i = 0; i < this._height; ++i) {
+
+            for (int j = 0; j < this._width; ++j) {
+
+                if (this._board[i][j].getIdPlayer() == 1) {
+                    count++;
+                }
+
+            }
+
+        }
+
+        return count;
+
+    }
+
+    public int getTilesCountPlayer2() {
+
+        int count = 0;
+
+        for (int i = 0; i < this._height; ++i) {
+
+            for (int j = 0; j < this._width; ++j) {
+
+                if (this._board[i][j].getIdPlayer() == 2) {
+                    count++;
+                }
+
+            }
+
+        }
+
+        return count;
+
+    }
+
+    public int getTotalTilesCount() {
+        return getTilesCountPlayer1() + getTilesCountPlayer2();
+    }
 
 }
