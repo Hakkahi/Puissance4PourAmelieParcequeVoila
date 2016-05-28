@@ -1,3 +1,7 @@
+/**
+ * MagicP4
+ * IUT Lyon 1 - 2016
+ */
 package view;
 
 import java.awt.Color;
@@ -13,9 +17,9 @@ import model.Game;
 import model.Player;
 
 /**
+ * GameView class
  *
- * @author hakkahi
- *
+ * @author hakkahi IUT Lyon 1 - 2016
  */
 public final class GameView extends JFrame implements Observer {
 
@@ -50,17 +54,24 @@ public final class GameView extends JFrame implements Observer {
     private static int _width;
     private static int _height;
 
+    /**
+     * GameView constructor
+     *
+     */
     public GameView() {
 
         super("Puissance4 - Game");
 
-        initSetingsFrame();
+        initSettingsFrame();
         this.setVisible(false);
         initGameFrame();
         initEndGameFrame();
     }
 
-    private void initSetingsFrame() {
+    /**
+     * initSettingsFrame Settings panel
+     */
+    private void initSettingsFrame() {
 
         this._settingsFrame = new JFrame("Puissance4 - Settings");
         this._settingsFrame.setSize(600, 500);
@@ -92,6 +103,9 @@ public final class GameView extends JFrame implements Observer {
 
     }
 
+    /**
+     * Game frame
+     */
     public void initGameFrame() {
 
         this.setSize(_gameWindowHeight, _gameWindowWidth);
@@ -128,6 +142,9 @@ public final class GameView extends JFrame implements Observer {
 
     }
 
+    /**
+     * End game frame
+     */
     private void initEndGameFrame() {
 
         this._endGameFrame = new JFrame("Puissance4 - EndGame");
@@ -154,6 +171,12 @@ public final class GameView extends JFrame implements Observer {
 
     }
 
+    /**
+     * Update method
+     *
+     * @param o
+     * @param arg
+     */
     @Override
     public void update(Observable o, Object arg) {
 
@@ -230,6 +253,9 @@ public final class GameView extends JFrame implements Observer {
         }
     }
 
+    /**
+     * Reset method
+     */
     public void resetPreview() {
 
         for (int i = 0; i < _width; ++i) {
@@ -240,6 +266,9 @@ public final class GameView extends JFrame implements Observer {
 
     }
 
+    /**
+     * Fill grid method
+     */
     public static void fillGrids() {
 
         for (int i = 0; i < _width; i++) {
@@ -273,11 +302,17 @@ public final class GameView extends JFrame implements Observer {
 
     }
 
+    /**
+     * Reset View method
+     */
     public void resetView() {
         _gameRowsGrid.removeAll();
         _gamePreview.removeAll();
     }
 
+    /**
+     * Set border size
+     */
     public void setBorderSize() {
 
         Rectangle rectangle = this.getBounds();
@@ -293,14 +328,27 @@ public final class GameView extends JFrame implements Observer {
 
     }
 
+    /**
+     * Set window height
+     *
+     * @param height
+     */
     public void setGameWindowHeight(int height) {
         this._gameWindowHeight = height;
     }
 
+    /**
+     * Set window width
+     *
+     * @param width
+     */
     public void setGameWindowWidth(int width) {
         this._gameWindowWidth = width;
     }
 
+    /**
+     * Set label border
+     */
     public void setLabelBorder() {
 
         for (int i = 0; i < _width; i++) {
