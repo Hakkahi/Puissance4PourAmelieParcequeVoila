@@ -1,17 +1,16 @@
-/*
- * To change this license header, choose License Headers in Project Properties.
- * To change this template file, choose Tools | Templates
- * and open the template in the editor.
+/**
+ * MagicP4
+ * IUT Lyon 1 - 2016
  */
 package model;
 
 /**
  *
- * @author hakkahi
+ * @author hakkahi - IUT Lyon 1 - 2016
  */
 public abstract class Effect {
 
-    //column et line sont les coordonnées du token qui vient d'être joué
+    //line and column are in the coordinates of the token that has just been played
     public abstract void playEffect(int line, int column, Game game);
 
 }
