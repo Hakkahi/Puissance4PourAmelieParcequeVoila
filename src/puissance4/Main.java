@@ -1,5 +1,5 @@
 /**
- * MagicP4 
+ * MagicP4
  * IUT Lyon 1 - 2016
  */
 package puissance4;
@@ -10,8 +10,8 @@ import view.GameView;
 
 /**
  * main
- * @author hakkahi
- *  IUT Lyon 1 - 2016
+ *
+ * @author hakkahi IUT Lyon 1 - 2016
  */
 public class Main {
 
