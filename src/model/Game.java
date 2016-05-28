@@ -258,50 +258,6 @@ public final class Game extends Observable {
         return this._over;
     }
 
-    public int getTilesCountPlayer1() {
-
-        int count = 0;
-
-        for (int i = 0; i < this._board.getHeight(); ++i) {
-
-            for (int j = 0; j < this._board.getWidth(); ++j) {
-
-                if (this._board.getTileIJ(i, j).getIdPlayer() == this._player1.getId()) {
-                    count++;
-                }
-
-            }
-
-        }
-
-        return count;
-
-    }
-
-    public int getTilesCountPlayer2() {
-
-        int count = 0;
-
-        for (int i = 0; i < this._board.getHeight(); ++i) {
-
-            for (int j = 0; j < this._board.getWidth(); ++j) {
-
-                if (this._board.getTileIJ(i, j).getIdPlayer() == this._player2.getId()) {
-                    count++;
-                }
-
-            }
-
-        }
-
-        return count;
-
-    }
-
-    public int getTotalTilesCount() {
-        return getTilesCountPlayer1() + getTilesCountPlayer2();
-    }
-
     public Player getPlayer1() {
         return this._player1;
     }
