@@ -1,6 +1,9 @@
+/**
+ * MagicP4 
+ * IUT Lyon 1 - 2016
+ */
 package controller;
 
-import java.awt.Color;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.awt.event.ComponentAdapter;
@@ -9,18 +12,17 @@ import java.awt.event.MouseAdapter;
 import java.awt.event.MouseEvent;
 import java.awt.event.WindowAdapter;
 import java.awt.event.WindowEvent;
-import javax.swing.JLabel;
 import javax.swing.JPanel;
-import javax.swing.SwingConstants;
 import model.Board;
 import model.Game;
 import model.HumanPlayer;
 import view.GameView;
 
 /**
- *
+ * GameController
  * @author hakkahi
- *
+ * and Amélie Cordier, IUT Lyon 1 - 2016
+ * 
  */
 public final class GameController {
 
@@ -45,18 +47,27 @@ public final class GameController {
     private ActionListener _endGameQuit;
     private WindowAdapter _endGameClosingWindow;
 
+    /**
+     * GameController constructor
+     * @param view
+     * @param game 
+     */
+           
     public GameController(GameView view, Game game) {
 
-        //On initialise la vue du controller
+        //Initilalisation of the view
         this._view = view;
         this._game = game;
 
-        initSetingsController();
+        initSettingsController();
         initEndGameController();
 
     }
 
-    public void initSetingsController() {
+    /**
+     * Settings initialisation
+     */
+    public void initSettingsController() {
 
         this._settingsClosingWindow = new WindowAdapter() {
 
@@ -81,17 +92,20 @@ public final class GameController {
 
     }
 
+    /**
+     * Game initialisation
+     */
     public void initGameController() {
 
-        //On initialise les matrices d'évènement de la partie Grid
+        //Init of the event matrix for the Grid part
         this._gameSelectColumnGrid = new MouseAdapter[this._game.getBoard().getHeight()][this._game.getBoard().getWidth()];
         this._gameClickColumnGrid = new MouseAdapter[this._game.getBoard().getHeight()][this._game.getBoard().getWidth()];
 
-        //On initialise les matrices d'évènement de la partie Preview
+        //Init of the event matrix for the Previw part
         this._gameSelectColumnPreview = new MouseAdapter[this._game.getBoard().getWidth()];
         this._gameClickColumnPreview = new MouseAdapter[this._game.getBoard().getWidth()];
 
-        //Création de l'évènement qui quitte le jeu lors d'un clique de la croix
+        //Creation of the event that exit the game when clicking on the window cross
         this._gameClosingWindow = new WindowAdapter() {
 
             @Override
@@ -112,7 +126,7 @@ public final class GameController {
 
         };
 
-        //Création des évènements de souris dans la partie Grid
+        //Mouse events in the Grid
         for (int i = 0; i < this._game.getBoard().getHeight(); ++i) {
 
             for (int j = 0; j < this._game.getBoard().getWidth(); ++j) {
@@ -151,7 +165,7 @@ public final class GameController {
 
         }
 
-        //Création des évènements de souris dans la partie preview
+        //Mouse events int the preview
         for (int i = 0; i < this._game.getBoard().getWidth(); ++i) {
 
             final int column = i;
@@ -180,7 +194,7 @@ public final class GameController {
 
         }
 
-        //Ajout des évènements crées à leurs éléments dans la vue
+        //Add events to elements in the view 
         this._view.getMainFrame().addWindowListener(_gameClosingWindow);
 
         this._view.getMainFrame().addComponentListener(_gameResizingWindow);
@@ -206,6 +220,9 @@ public final class GameController {
 
     }
 
+    /**
+     * EndGame controller 
+     */
     public void initEndGameController() {
 
         this._endGameClosingWindow = new WindowAdapter() {
@@ -230,10 +247,18 @@ public final class GameController {
 
     }
 
+    /**
+     * Exit method
+     */
+            
     private void quit() {
         System.exit(0);
     }
 
+    /** 
+     * Replay method
+     */ 
+     
     private void playAgain() {
 
         this._view.getEndGameFrame().setVisible(false);
@@ -243,8 +268,12 @@ public final class GameController {
 
     }
 
+    /**
+     * Start a new game method
+     */
     private void startGame() {
 
+        //TODO la taille des grilles devrait être un paramètre 
         int width = 10;
         int height = 10;
 
@@ -252,6 +281,7 @@ public final class GameController {
         this._game.setBoard(board);
         this._game.getBoard().setEffectChances(this._view.getSettingsTileSlider().getValue());
 
+        //TODO discuter avec Antoine de la position de cette méthode 
         this._game.setTilesEffect();
 
         this._view.setWidth(width);
