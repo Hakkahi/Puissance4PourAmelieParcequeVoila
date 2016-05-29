@@ -13,6 +13,8 @@ import static org.junit.Assert.*;
 
 /**
  * Test class for InvertAllTilesEffect
+ * Principe de l'effet : juste après que le pion est joué, 
+ * toutes les pions présents sur le plateau inversent leur couleur 
  * @author Amélie Cordier
  */
 public class InvertAllTilesEffectTest {
