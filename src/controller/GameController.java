@@ -1,5 +1,5 @@
 /**
- * MagicP4 
+ * MagicP4
  * IUT Lyon 1 - 2016
  */
 package controller;
@@ -20,9 +20,9 @@ import view.GameView;
 
 /**
  * GameController
- * @author hakkahi
- * and Amélie Cordier, IUT Lyon 1 - 2016
- * 
+ *
+ * @author hakkahi and Amélie Cordier, IUT Lyon 1 - 2016
+ *
  */
 public final class GameController {
 
@@ -49,10 +49,10 @@ public final class GameController {
 
     /**
      * GameController constructor
+     *
      * @param view
-     * @param game 
+     * @param game
      */
-           
     public GameController(GameView view, Game game) {
 
         //Initilalisation of the view
@@ -194,13 +194,13 @@ public final class GameController {
 
         }
 
-        //Add events to elements in the view 
+        //Add events to elements in the view
         this._view.getMainFrame().addWindowListener(_gameClosingWindow);
 
         this._view.getMainFrame().addComponentListener(_gameResizingWindow);
-        
+
         for (int i = 0; i < this._game.getBoard().getWidth(); ++i) {
-            
+
             for (int j = 0; j < this._game.getBoard().getHeight(); ++j) {
 
                 JPanel tmp = (JPanel) this._view.getGameRowsGrid().getComponent(i);
@@ -221,7 +221,7 @@ public final class GameController {
     }
 
     /**
-     * EndGame controller 
+     * EndGame controller
      */
     public void initEndGameController() {
 
@@ -250,15 +250,13 @@ public final class GameController {
     /**
      * Exit method
      */
-            
     private void quit() {
         System.exit(0);
     }
 
-    /** 
+    /**
      * Replay method
-     */ 
-     
+     */
     private void playAgain() {
 
         this._view.getEndGameFrame().setVisible(false);
@@ -273,7 +271,7 @@ public final class GameController {
      */
     private void startGame() {
 
-        //TODO la taille des grilles devrait être un paramètre 
+        //TODO la taille des grilles devrait être un paramètre
         int width = 10;
         int height = 10;
 
@@ -281,7 +279,7 @@ public final class GameController {
         this._game.setBoard(board);
         this._game.getBoard().setEffectChances(this._view.getSettingsTileSlider().getValue());
 
-        //TODO discuter avec Antoine de la position de cette méthode 
+        //TODO discuter avec Antoine de la position de cette méthode
         this._game.setTilesEffect();
 
         this._view.setWidth(width);

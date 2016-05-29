@@ -133,7 +133,7 @@ public class DisappearEffectTest {
         // Coup joué sur cette case 
         aGame.playMove(0);
 
-        // Vérification que le nombre de tuiles au total est égal à 0  
+        // Vérification que le nombre de jetons au total est égal à 0  
         assertEquals(0, aGame.getBoard().getTotalTilesCount());
 
     }

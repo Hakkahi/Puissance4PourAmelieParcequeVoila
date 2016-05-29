@@ -19,7 +19,7 @@ public class Utils {
         for(int i=0; i<10; i++){
             aGame.playMove(i);
         }
-        for(int i=0; i<10; i=i+2){
+        for(int i=0; i<7; i=i+2){
             aGame.playMove(i);
         }
         

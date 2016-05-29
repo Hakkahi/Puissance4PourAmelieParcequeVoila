@@ -6,7 +6,7 @@ package model;
 
 /**
  *
- * @author hakkahi - IUT Lyon 1 - 2016
+ * @author Amélie Cordier - IUT Lyon 1 - 2016
  */
 public class InvertAllTilesEffect extends Effect {
 

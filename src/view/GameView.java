@@ -196,7 +196,7 @@ public final class GameView extends JFrame implements Observer {
 
                 for (int j = 0; j < _height; ++j) {
 
-                    Player tmp = game.getPlayerById(game.getBoard().getTileIJ(j, i).getIdPlayer());
+                    Player tmp = game.getPlayerById(game.getBoard().getTileIJ(j, i).getStatus());
 
                     if (tmp != null) {
 
