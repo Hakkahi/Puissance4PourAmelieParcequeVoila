@@ -119,6 +119,46 @@ public class ChangeColorEffectTest {
 
     /**
      * Test de ChangeColorEffect sur grille vide 
+     * Vérification de l'état de la tuile après application de l'effet et deux coups joués
+     * Résultats attendus : la case doit être de la couleur opposée à celle 
+     * jouée pour chaque coup joué
+     */
+    @Test
+    public void testChangeColorEffectTwoTokensEmptyGame() {
+
+        // Effet fixé sur une case 
+        int height = aGame.getBoard().getHeight();
+        aGame.getBoard().getTileIJ(height - 1, 0).setEffect(new ChangeColorEffect());
+        aGame.getBoard().getTileIJ(height - 2, 0).setEffect(new ChangeColorEffect());
+
+        
+        // Récupération de l'ID du joueur courant 
+        int id_player = aGame.getCurrentPlayer().getId();
+
+        // Coup joué sur la case de l'effet 
+        aGame.playMove(0);
+        
+        // Récupération de l'ID du joueur suivant 
+        int id_next_player = aGame.getCurrentPlayer().getId();
+        
+        aGame.playMove(0);
+
+        // Vérifications :
+        // - les deux cases sont bien des couleurs opposées à celle jouées
+        // - l'effet est bien appliqué sur les cases
+        // - le tour de jeu est bien revenu au joueur initial
+        assertEquals(id_next_player, aGame.getBoard().getTileIJ(height - 1, 0).getStatus());
+        assertEquals(id_player, aGame.getBoard().getTileIJ(height - 2, 0).getStatus());
+        assertTrue("Doit être d'effet change color", aGame.getBoard().getTileIJ(height - 1, 0).getEffect() instanceof ChangeColorEffect);
+        assertTrue("Doit être d'effet change color", aGame.getBoard().getTileIJ(height - 2, 0).getEffect() instanceof ChangeColorEffect);
+        assertTrue(aGame.getCurrentPlayer().getId() == id_player);
+
+    }
+
+
+    
+    /**
+     * Test de ChangeColorEffect sur grille vide 
      * Vérification du nombre de jetons
      * après jeu 
      * Résultat attendu : le nombre doit être égal à 1
