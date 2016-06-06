@@ -237,7 +237,6 @@ public final class GameView extends JFrame implements Observer {
                 this._endGameLabel1.setVerticalAlignment(JLabel.CENTER);
                 this._endGameLabel1.setHorizontalAlignment(JLabel.CENTER);
 
-                this.setVisible(false);
                 this._endGameFrame.setVisible(true);
 
             }
@@ -246,7 +245,6 @@ public final class GameView extends JFrame implements Observer {
                 this._endGameLabel1.setVerticalAlignment(JLabel.CENTER);
                 this._endGameLabel1.setHorizontalAlignment(JLabel.CENTER);
 
-                this.setVisible(false);
                 this._endGameFrame.setVisible(true);
             }
 

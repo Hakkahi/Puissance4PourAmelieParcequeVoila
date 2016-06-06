@@ -260,6 +260,7 @@ public final class GameController {
     private void playAgain() {
 
         this._view.getEndGameFrame().setVisible(false);
+        this._view.getMainFrame().setVisible(false);
         this._view.getSettingsFrame().setVisible(true);
         this._game.resetGame();
         this._view.resetView();
