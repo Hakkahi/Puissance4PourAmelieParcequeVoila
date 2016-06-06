@@ -28,7 +28,7 @@ public class ChangeColorEffect extends Effect {
         if (tile_id == player1_id) {
             tile_id = player2_id;
         } else {
-            tile_id = player2_id;
+            tile_id = player1_id;
         }
         game.getBoard().getTileIJ(line, column).setStatus(tile_id);
     }
