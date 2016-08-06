@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.awt.Color;
 import java.util.Random;
 
 /**
@@ -29,11 +30,11 @@ public class EffectFactory {
         switch (random) {
 
             case 0:
-                return new ChangeColorEffect();
+                return new ChangeColorEffect(Color.GREEN);
             case 1:
-                return new DisappearEffect();
+                return new DisappearEffect(Color.CYAN);
             case 2:
-                return new InvertAllTilesEffect();
+                return new InvertAllTilesEffect(Color.ORANGE);
         }
 
         return null;

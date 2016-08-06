@@ -56,7 +56,7 @@ public final class Game extends Observable {
      *
      * @param column
      */
-    public void playMove(int column) {
+    public void playMove(int column, boolean doPlayEffect, boolean doChangePlayer) {
 
         int i;
 
@@ -77,7 +77,7 @@ public final class Game extends Observable {
 
             }
 
-            if (this._board.getTileIJ(i, column).getEffect() != null) {
+            if (this._board.getTileIJ(i, column).getEffect() != null && doPlayEffect) {
                 this._board.getTileIJ(i, column).getEffect().playEffect(i, column, this);
             }
 
@@ -87,11 +87,12 @@ public final class Game extends Observable {
             }
 
             isOver();
-
-            if (this._currentPlayer.getId() == this._player1.getId()) {
-                _currentPlayer = _player2;
-            } else {
-                _currentPlayer = _player1;
+            if (doChangePlayer) {
+                if (this._currentPlayer.getId() == this._player1.getId()) {
+                    _currentPlayer = _player2;
+                } else {
+                    _currentPlayer = _player1;
+                }
             }
 
             setChanged();

@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.awt.Color;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -61,7 +62,7 @@ public class ChangeColorEffectTest {
         // Effet fixé sur une case (qui n'est pas encore remplie)
         int height = aGame.getBoard().getHeight();
         // height-3 correspond à la première case vide dans la colonne O, vu que l'on a déjà joué deux coups dans cette colonne
-        aGame.getBoard().getTileIJ(height - 3, 0).setEffect(new ChangeColorEffect());
+        aGame.getBoard().getTileIJ(height - 3, 0).setEffect(new ChangeColorEffect(Color.GREEN));
 
         // Récupération de l'ID du joueur avant que le coup soit joué 
         int id_player = aGame.getCurrentPlayer().getId();
@@ -70,7 +71,7 @@ public class ChangeColorEffectTest {
         int nb_tokens_before = aGame.getBoard().getTotalTilesCount();
 
         // Coup joué sur une case ne contenant pas l'effet 
-        aGame.playMove(1);
+        aGame.playMove(1, true, true);
 
         // Récupération du nombre de pions après le coup 
         int nb_tokens_after = aGame.getBoard().getTotalTilesCount();
@@ -95,13 +96,13 @@ public class ChangeColorEffectTest {
 
         // Effet fixé sur une case 
         int height = aGame.getBoard().getHeight();
-        aGame.getBoard().getTileIJ(height - 1, 0).setEffect(new ChangeColorEffect());
+        aGame.getBoard().getTileIJ(height - 1, 0).setEffect(new ChangeColorEffect(Color.GREEN));
 
         // Récupération de l'ID du joueur courant 
         int id_player = aGame.getCurrentPlayer().getId();
 
         // Coup joué sur la case de l'effet 
-        aGame.playMove(0);
+        aGame.playMove(0, true, true);
         
         // Récupération de l'ID du joueur suivant 
         int id_next_player = aGame.getCurrentPlayer().getId();
@@ -128,20 +129,20 @@ public class ChangeColorEffectTest {
 
         // Effet fixé sur une case 
         int height = aGame.getBoard().getHeight();
-        aGame.getBoard().getTileIJ(height - 1, 0).setEffect(new ChangeColorEffect());
-        aGame.getBoard().getTileIJ(height - 2, 0).setEffect(new ChangeColorEffect());
+        aGame.getBoard().getTileIJ(height - 1, 0).setEffect(new ChangeColorEffect(Color.GREEN));
+        aGame.getBoard().getTileIJ(height - 2, 0).setEffect(new ChangeColorEffect(Color.GREEN));
 
         
         // Récupération de l'ID du joueur courant 
         int id_player = aGame.getCurrentPlayer().getId();
 
         // Coup joué sur la case de l'effet 
-        aGame.playMove(0);
+        aGame.playMove(0, true, true);
         
         // Récupération de l'ID du joueur suivant 
         int id_next_player = aGame.getCurrentPlayer().getId();
         
-        aGame.playMove(0);
+        aGame.playMove(0, true, true);
 
         // Vérifications :
         // - les deux cases sont bien des couleurs opposées à celle jouées
@@ -168,10 +169,10 @@ public class ChangeColorEffectTest {
 
         // Effet fixé sur une case 
         int height = aGame.getBoard().getHeight();
-        aGame.getBoard().getTileIJ(height - 1, 0).setEffect(new ChangeColorEffect());
+        aGame.getBoard().getTileIJ(height - 1, 0).setEffect(new ChangeColorEffect(Color.GREEN));
 
         // Coup joué sur cette case 
-        aGame.playMove(0);
+        aGame.playMove(0, true, true);
 
         // Vérification que le nombre de jetons au total est égal à 1  
         assertEquals(1, aGame.getBoard().getTotalTilesCount());
@@ -195,14 +196,14 @@ public class ChangeColorEffectTest {
         // Effet fixé sur une case (qui n'est pas encore remplie)
         int height = aGame.getBoard().getHeight();
         // height-3 correspond à la première case vide dans la colonne O, vu que l'on a déjà joué deux coups dans cette colonne
-        aGame.getBoard().getTileIJ(height - 3, 0).setEffect(new ChangeColorEffect());
+        aGame.getBoard().getTileIJ(height - 3, 0).setEffect(new ChangeColorEffect(Color.GREEN));
 
         // Récupération de l'ID du joueur avant que le coup soit joué 
         int id_player = aGame.getCurrentPlayer().getId();
         System.out.println(id_player);
 
         // Coup joué sur cette case 
-        aGame.playMove(0);
+        aGame.playMove(0, true, true);
 
         // Récupération de l'ID du joueur suivant 
         int id_next_player = aGame.getCurrentPlayer().getId();

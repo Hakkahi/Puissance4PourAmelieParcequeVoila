@@ -4,11 +4,17 @@
  */
 package model;
 
+import java.awt.Color;
+
 /**
  *
  * @author Amélie Cordier - IUT Lyon 1 - 2016
  */
 public class InvertAllTilesEffect extends Effect {
+
+    public InvertAllTilesEffect(Color color) {
+        super(color);
+    }
 
     /**
      * This effect changes the color of all the tiles on the board

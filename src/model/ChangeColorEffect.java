@@ -4,11 +4,17 @@
  */
 package model;
 
+import java.awt.Color;
+
 /**
  *
  * @author hakkahi - IUT Lyon 1 - 2016
  */
 public class ChangeColorEffect extends Effect {
+
+    public ChangeColorEffect(Color color) {
+        super(color);
+    }
 
     /**
      * This effect changes the color of the tile that has just been played and

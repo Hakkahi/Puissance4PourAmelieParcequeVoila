@@ -4,6 +4,7 @@
  */
 package model;
 
+import java.awt.Color;
 import org.junit.After;
 import org.junit.AfterClass;
 import org.junit.Before;
@@ -64,7 +65,7 @@ public class InvertAllTilesEffectTest {
         int height = aGame.getBoard().getHeight();
                 
         // height-3 correspond à la première case vide dans la colonne O, vu que l'on a déjà joué deux coups dans cette colonne
-        aGame.getBoard().getTileIJ(height-3, 0).setEffect(new InvertAllTilesEffect());
+        aGame.getBoard().getTileIJ(height-3, 0).setEffect(new InvertAllTilesEffect(Color.ORANGE));
 
         // Récupération de l'ID du joueur avant que le coup soit joué 
         int id_player = aGame.getCurrentPlayer().getId();
@@ -73,7 +74,7 @@ public class InvertAllTilesEffectTest {
         int nb_tokens_before = aGame.getBoard().getTotalTilesCount();
         
         // Coup joué sur une case ne contenant pas l'effet  
-        aGame.playMove(1);
+        aGame.playMove(1, true, true);
          
         // Récupération du nombre de jetons après le coup 
         int nb_tokens_after = aGame.getBoard().getTotalTilesCount();
@@ -101,13 +102,13 @@ public class InvertAllTilesEffectTest {
        
         // Effet fixé sur une case 
         int height = aGame.getBoard().getHeight();
-        aGame.getBoard().getTileIJ(height-1, 0).setEffect(new InvertAllTilesEffect());
+        aGame.getBoard().getTileIJ(height-1, 0).setEffect(new InvertAllTilesEffect(Color.ORANGE));
 
         // Récupération de l'ID du joueur courant 
         int id_player = aGame.getCurrentPlayer().getId();
  
         // Coup joué sur la case de l'effet 
-        aGame.playMove(0);
+        aGame.playMove(0, true, true);
         
         int id_nextplayer = aGame.getCurrentPlayer().getId();
         
@@ -142,13 +143,13 @@ public class InvertAllTilesEffectTest {
         // Effet fixé sur une case (qui n'est pas encore remplie)
         int height = aGame.getBoard().getHeight();
         // height-3 correspond à la première case vide dans la colonne O, vu que l'on a déjà joué deux coups dans cette colonne
-        aGame.getBoard().getTileIJ(height-3, 0).setEffect(new InvertAllTilesEffect());
+        aGame.getBoard().getTileIJ(height-3, 0).setEffect(new InvertAllTilesEffect(Color.ORANGE));
 
         // Récupération de l'ID du joueur avant que le coup soit joué 
         int id_player = aGame.getCurrentPlayer().getId();
                 
         // Coup joué sur cette case 
-        aGame.playMove(0);
+        aGame.playMove(0, true, true);
          
         // On compte les nombres de jetons de chaque joueur après le coup joué 
         int nbtoken_p1_after = aGame.getBoard().getTilesCountPlayer1();
@@ -166,5 +167,6 @@ public class InvertAllTilesEffectTest {
         // Le joueur 1 doit avoir l'ancien nombre de jetons du joueur2 
         assertEquals(nbtoken_p1_after, nbtoken_p2_before);        
         assertTrue(aGame.getCurrentPlayer().getId() != id_player);
+        
     }
 }

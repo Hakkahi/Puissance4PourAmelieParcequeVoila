@@ -213,7 +213,7 @@ public final class GameView extends JFrame implements Observer {
 
                         JPanel panelTmp = (JPanel) _gameRowsGrid.getComponent(i);
                         JLabel tmps = (JLabel) panelTmp.getComponent(j);
-                        tmps.setBorder(BorderFactory.createLineBorder(Color.GREEN, _gameBorderSize));
+                        tmps.setBorder(BorderFactory.createLineBorder(game.getBoard().getTileIJ(j, i).getEffect().getColor(), _gameBorderSize));
 
                     } else {
 

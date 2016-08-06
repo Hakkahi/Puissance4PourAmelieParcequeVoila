@@ -153,7 +153,7 @@ public final class GameController {
                         if (_game.getCurrentPlayer() instanceof HumanPlayer) {
 
                             if (_game.strokeIsValid(column)) {
-                                _game.playMove(column);
+                                _game.playMove(column, true, true);
 
                             }
                         }
@@ -187,7 +187,7 @@ public final class GameController {
                 public void mouseClicked(MouseEvent e) {
 
                     if (_game.getCurrentPlayer() instanceof HumanPlayer) {
-                        _game.playMove(column);
+                        _game.playMove(column, true, true);
                     }
                 }
             };

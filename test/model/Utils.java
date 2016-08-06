@@ -17,10 +17,10 @@ public class Utils {
      */
     static void simulateAGame(Game aGame){
         for(int i=0; i<10; i++){
-            aGame.playMove(i);
+            aGame.playMove(i, true, true);
         }
         for(int i=0; i<7; i=i+2){
-            aGame.playMove(i);
+            aGame.playMove(i, true, true);
         }
         
         //System.out.println(aGame.getBoard().toStringSymbols());

@@ -4,11 +4,17 @@
  */
 package model;
 
+import java.awt.Color;
+
 /**
  *
  * @author Amélie Cordier IUT Lyon 1 - 2016
  */
 public class DisappearEffect extends Effect {
+
+    public DisappearEffect(Color color) {
+        super(color);
+    }
 
     /**
      * This effect makes the token disappear as soon as it is played

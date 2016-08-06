@@ -11,7 +11,7 @@ package model;
  */
 public class Board {
 
-    private Tile[][] _board;
+    private final Tile[][] _board;
     private int _tileEffectChance;
     private int _width;
     private int _height;
